@@ -508,8 +508,6 @@ export default function LeadFormPage() {
                       outline: "none",
                       backgroundColor: "white",
                       color: "#374151",
-                      backgroundColor: "white",
-                      color: "#374151",
                       boxSizing: "border-box",
                     }}
                   >
@@ -550,8 +548,6 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
-                      backgroundColor: "white",
-                      color: "#374151",
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
