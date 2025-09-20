@@ -34,6 +34,7 @@
 
     // Recommended Options
     "strict": true,
+    "noImplicitAny": false,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
@@ -42,7 +43,7 @@
     "skipLibCheck": true,
 
     "esModuleInterop": true,
-    "moduleResolution": "node10",
+    "moduleResolution": "node",
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
