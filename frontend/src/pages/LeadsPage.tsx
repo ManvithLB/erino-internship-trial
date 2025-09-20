@@ -71,21 +71,31 @@ export default function LeadsPage() {
   const [selectedLead, setSelectedLead] = useState<any>(null);
   const [showLeadDetail, setShowLeadDetail] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
 
-  const handleDeleteLead = async (leadId: string) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this lead? This action cannot be undone."
-      )
-    ) {
-      try {
-        await LeadsAPI.remove(leadId);
-        fetchLeads();
-      } catch (error) {
-        console.error("Error deleting lead:", error);
-        alert("Failed to delete lead. Please try again.");
-      }
+  const handleDeleteClick = (leadId: string) => {
+    setLeadToDelete(leadId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!leadToDelete) return;
+
+    try {
+      await LeadsAPI.remove(leadToDelete);
+      fetchLeads();
+      setShowDeleteModal(false);
+      setLeadToDelete(null);
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+      alert("Failed to delete lead. Please try again.");
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setLeadToDelete(null);
   };
 
   const handleLeadClick = (lead: any) => {
@@ -277,7 +287,10 @@ export default function LeadsPage() {
         cellRenderer: (params: any) => (
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <button
-              onClick={() => navigate(`/leads/${params.data.id}`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/leads/${params.data.id}/edit`);
+              }}
               style={{
                 backgroundColor: "transparent",
                 border: "none",
@@ -293,7 +306,10 @@ export default function LeadsPage() {
               <span style={{ fontSize: 16, color: "#6B7280" }}>✏️</span>
             </button>
             <button
-              onClick={() => handleDeleteLead(params.data.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick(params.data.id);
+              }}
               style={{
                 backgroundColor: "transparent",
                 border: "none",
@@ -385,6 +401,7 @@ export default function LeadsPage() {
         </div>
 
         <div
+          onClick={() => navigate("/")}
           style={{
             width: 32,
             height: 32,
@@ -397,7 +414,7 @@ export default function LeadsPage() {
             color: "white",
             cursor: "pointer",
           }}
-          title="Leads"
+          title="Home"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -674,7 +691,20 @@ export default function LeadsPage() {
                   suppressRowHoverHighlight: false,
                   rowClass: "lead-row",
                 }}
-                onRowClicked={(event) => handleLeadClick(event.data)}
+                onRowClicked={(event) => {
+                  // Check if the click was on the action column
+                  const target = event.event?.target as HTMLElement;
+                  if (
+                    target &&
+                    (target.closest('button[title="Edit Lead"]') ||
+                      target.closest('button[title="Delete Lead"]') ||
+                      target.closest('span[style*="color: #6B7280"]') ||
+                      target.closest('span[style*="color: #EF4444"]'))
+                  ) {
+                    return; // Don't open details modal for action buttons
+                  }
+                  handleLeadClick(event.data);
+                }}
               />
             </div>
           )}
@@ -1035,6 +1065,96 @@ export default function LeadsPage() {
                 }}
               >
                 Edit Lead
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2000,
+          }}
+          onClick={cancelDelete}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: 12,
+              padding: 24,
+              maxWidth: 400,
+              width: "90%",
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                color: "#1F2937",
+                margin: "0 0 16px 0",
+              }}
+            >
+              Delete Lead
+            </h3>
+            <p
+              style={{
+                fontSize: 14,
+                color: "#6B7280",
+                margin: "0 0 24px 0",
+                lineHeight: 1.5,
+              }}
+            >
+              Are you sure you want to delete this lead? This action cannot be
+              undone.
+            </p>
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                justifyContent: "flex-end",
+              }}
+            >
+              <button
+                onClick={cancelDelete}
+                style={{
+                  padding: "8px 16px",
+                  border: "1px solid #D1D5DB",
+                  borderRadius: 6,
+                  backgroundColor: "white",
+                  color: "#374151",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                style={{
+                  padding: "8px 16px",
+                  border: "none",
+                  borderRadius: 6,
+                  backgroundColor: "#EF4444",
+                  color: "white",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                }}
+              >
+                Delete
               </button>
             </div>
           </div>

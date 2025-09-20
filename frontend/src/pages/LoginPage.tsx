@@ -1,7 +1,15 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthAPI } from "../lib/api";
 import { useNavigate, Link } from "react-router-dom";
+
+// Custom CSS to fix input colors
+const inputStyles = `
+  input {
+    background: white !important;
+    color: #374151 !important;
+  }
+`;
 
 export default function LoginPage() {
   const {
@@ -11,6 +19,17 @@ export default function LoginPage() {
   } = useForm<{ email: string; password: string }>();
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+
+  // Inject custom CSS for inputs
+  useEffect(() => {
+    const styleElement = document.createElement("style");
+    styleElement.textContent = inputStyles;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   return (
     <div
@@ -124,6 +143,8 @@ export default function LoginPage() {
                 fontSize: 14,
                 outline: "none",
                 boxSizing: "border-box",
+                backgroundColor: "white",
+                color: "#374151",
               }}
             />
           </div>
@@ -152,6 +173,8 @@ export default function LoginPage() {
                 fontSize: 14,
                 outline: "none",
                 boxSizing: "border-box",
+                backgroundColor: "white",
+                color: "#374151",
               }}
             />
           </div>

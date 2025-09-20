@@ -3,6 +3,30 @@ import { useForm } from "react-hook-form";
 import { LeadsAPI } from "../lib/api";
 import { useNavigate, useParams } from "react-router-dom";
 
+// Custom CSS to fix number input spinners
+const numberInputStyles = `
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background: white !important;
+    color: #374151 !important;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+    background: white !important;
+    color: #374151 !important;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    opacity: 1;
+    background: white !important;
+    color: #374151 !important;
+  }
+`;
+
 export default function LeadFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,6 +44,17 @@ export default function LeadFormPage() {
       LeadsAPI.get(id).then(({ data }) => reset(data));
     }
   }, [id, reset]);
+
+  // Inject custom CSS for number inputs
+  useEffect(() => {
+    const styleElement = document.createElement("style");
+    styleElement.textContent = numberInputStyles;
+    document.head.appendChild(styleElement);
+
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   return (
     <div
@@ -65,54 +100,27 @@ export default function LeadFormPage() {
         >
           E
         </div>
+
         <div
+          onClick={() => navigate("/")}
           style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
+            width: 32,
+            height: 32,
+            backgroundColor: "white",
             borderRadius: 4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 16,
+            color: "#660090",
+            cursor: "pointer",
           }}
-        />
-        <div
-          style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            borderRadius: 4,
-          }}
-        />
-        <div
-          style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            borderRadius: 4,
-          }}
-        />
-        <div
-          style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            borderRadius: 4,
-          }}
-        />
-        <div
-          style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            borderRadius: 4,
-          }}
-        />
-        <div
-          style={{
-            width: 24,
-            height: 24,
-            backgroundColor: "rgba(255,255,255,0.2)",
-            borderRadius: 4,
-          }}
-        />
+          title="Home"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -254,6 +262,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -282,6 +292,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -311,6 +323,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -339,6 +353,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -391,6 +407,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -419,6 +437,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -447,6 +467,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -500,6 +522,8 @@ export default function LeadFormPage() {
                       outline: "none",
                       backgroundColor: "white",
                       color: "#374151",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                     }}
                   >
@@ -542,6 +566,8 @@ export default function LeadFormPage() {
                       outline: "none",
                       backgroundColor: "white",
                       color: "#374151",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                     }}
                   >
@@ -579,6 +605,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -609,6 +637,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",
@@ -637,6 +667,8 @@ export default function LeadFormPage() {
                       borderRadius: 8,
                       fontSize: 14,
                       outline: "none",
+                      backgroundColor: "white",
+                      color: "#374151",
                       boxSizing: "border-box",
                       backgroundColor: "white",
                       color: "#374151",

@@ -42,6 +42,14 @@ export default function App() {
           }
         />
         <Route
+          path="/leads/:id/edit"
+          element={
+            <ProtectedRoute>
+              <LeadFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/leads/:id"
           element={
             <ProtectedRoute>
