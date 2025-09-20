@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Keepalive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button {
+            background-color: #660090;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #4d0066; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backend Keepalive Service</h1>
+        <p>This page helps keep the Render backend alive by pinging it every 10 minutes.</p>
+        
+        <div id="status" class="status info">
+            Status: Waiting to start...
+        </div>
+        
+        <div>
+            <button onclick="pingNow()">Ping Now</button>
+            <button onclick="toggleKeepalive()">Toggle Auto-Ping</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <h3>Log:</h3>
+        <div id="log" style="max-height: 300px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px;"></div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://erino-internship-trial-backend.onrender.com';
+        let keepaliveInterval = null;
+        let isRunning = false;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('log');
+            const statusDiv = document.getElementById('status');
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `status ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            
+            statusDiv.textContent = `Status: ${message}`;
+            statusDiv.className = `status ${type}`;
+        }
+
+        async function pingBackend() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/ping`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Ping successful: ${data.pong ? 'Pong!' : 'OK'} (${data.timestamp})`, 'success');
+                    return true;
+                } else {
+                    log(`❌ Ping failed: HTTP ${response.status}`, 'error');
+                    return false;
+                }
+            } catch (error) {
+                log(`❌ Ping error: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        function pingNow() {
+            log('🔄 Manual ping initiated...', 'info');
+            pingBackend();
+        }
+
+        function toggleKeepalive() {
+            if (isRunning) {
+                clearInterval(keepaliveInterval);
+                keepaliveInterval = null;
+                isRunning = false;
+                log('⏸️ Auto-ping stopped', 'info');
+            } else {
+                log('▶️ Starting auto-ping every 10 minutes...', 'info');
+                pingBackend(); // Ping immediately
+                keepaliveInterval = setInterval(pingBackend, 10 * 60 * 1000); // Every 10 minutes
+                isRunning = true;
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            log('Log cleared', 'info');
+        }
+
+        // Auto-start keepalive when page loads
+        window.addEventListener('load', () => {
+            log('🚀 Keepalive service loaded', 'info');
+            setTimeout(() => {
+                toggleKeepalive();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

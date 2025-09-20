@@ -1,0 +1,11 @@
+{
+  "name": "erino-lead-management",
+  "version": "1.0.0",
+  "description": "Lead Management System",
+  "scripts": {
+    "keepalive": "node keepalive.js"
+  },
+  "keywords": ["lead-management", "crm"],
+  "author": "Manvith",
+  "license": "MIT"
+}
