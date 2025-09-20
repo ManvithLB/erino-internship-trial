@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: erinolead-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node dist/server.js
+    rootDir: backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: postgresql://leads_btrs_user:85Pyz6aLVJHedBEjYDAKsRJqkw8igjvz@dpg-d363g0muk2gs738poaqg-a.oregon-postgres.render.com/leads_btrs
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
