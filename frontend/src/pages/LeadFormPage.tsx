@@ -265,8 +265,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -295,8 +293,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -326,8 +322,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -356,8 +350,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -410,8 +402,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -440,8 +430,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -470,8 +458,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -608,8 +594,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -640,8 +624,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
@@ -670,8 +652,6 @@ export default function LeadFormPage() {
                       backgroundColor: "white",
                       color: "#374151",
                       boxSizing: "border-box",
-                      backgroundColor: "white",
-                      color: "#374151",
                     }}
                   />
                 </div>
